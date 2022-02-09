@@ -22,7 +22,7 @@ Design system link: https://app.sympli.io/p/b7af245c13a878803bead2bfc9b2fcf7e4d7
     - Paginated table of launch data
     - Page size is constant
     - Columns: mission name, launch date, launch success (outcome), rocket name, payload mass, site name, mission ID
-3. Launches by nationality
+3. Payloads by nationality
     - Pie chart by nationality
     - Legend with count for each country
 4. Top missions by payload mass
