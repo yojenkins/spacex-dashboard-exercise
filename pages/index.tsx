@@ -4,27 +4,40 @@ import type { NextPage, GetServerSideProps } from "next";
 // import styles from '../styles/Home.module.css'
 import React, { useState } from "react";
 import Link from "next/link";
+import { gql } from "@apollo/client";
 
+import client from "../graphql/client";
 import Card from "../components/common/Card";
 import { Text, Heading } from "../components/common/typography";
+import { LaunchesDocument, LaunchesQuery } from "../graphql/generated";
 
 export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
+  const { data, error = null } = await client.query({
+    query: LaunchesDocument,
+  });
+  const { launchesPast: launches } = data;
   return {
-    props: {},
+    props: {
+      error,
+      launches,
+    },
   };
 };
 
-type Props = {};
+type Props = {
+  launches: LaunchesQuery["launchesPast"];
+};
 
-const Home: NextPage<Props> = ({}) => {
+const Home: NextPage<Props> = ({ launches }) => {
+  console.log(launches);
   return (
     <div className="p-4">
       <div className="md:grid gap-4 grid-cols-3 mt-3">
         <Card>
           <Card.Body>
-            <Text>Hello old chap</Text>
+            <Text>Hello old chappy</Text>
           </Card.Body>
         </Card>
 
