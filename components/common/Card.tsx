@@ -6,9 +6,15 @@ interface CardCompound {
   Body: FC;
 }
 
-const Card: FC & CardCompound = ({ children }) => {
+interface CardProps {
+  className?: string;
+}
+
+const Card: FC<CardProps> & CardCompound = ({ children, className = "" }) => {
   return (
-    <article className="bg-white dark:bg-gray-900 shadow-xl rounded-lg">
+    <article
+      className={`bg-white dark:bg-gray-900 shadow-xl rounded-lg${className}`}
+    >
       {children}
     </article>
   );

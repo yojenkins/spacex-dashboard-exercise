@@ -1,7 +1,15 @@
 import React, { FC } from "react";
 
-const Text: FC = ({ children }) => {
-  return <span className="text-slate-800 dark:text-gray-200">{children}</span>;
+interface Props {
+  className?: string;
+}
+
+const Text: FC<Props> = ({ children, className = "" }) => {
+  return (
+    <span className={`text-gray-800 dark:text-gray-200 ${className}`}>
+      {children}
+    </span>
+  );
 };
 
 export default Text;
