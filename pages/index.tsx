@@ -2,37 +2,34 @@ import type { NextPage, GetServerSideProps } from "next";
 // import Head from 'next/head'
 // import Image from 'next/image'
 // import styles from '../styles/Home.module.css'
-import React, { useState } from "react";
-import Link from "next/link";
-import { gql } from "@apollo/client";
+import React from "react";
+import { gql, useQuery } from "@apollo/client";
 
-import client from "../graphql/client";
+import { initializeApollo } from "../graphql/client";
 import Card from "../components/common/Card";
 import SummaryCard from "../components/pages/dashboard/SummaryCard";
+import MissionTable from "../components/pages/dashboard/MissionTable";
 import { Text, Heading } from "../components/common/typography";
 import { LaunchesDocument, LaunchesQuery } from "../graphql/generated";
 
-export const getServerSideProps: GetServerSideProps<Props> = async (
-  context
-) => {
-  const { data, error = null } = await client.query({
+export const getServerSideProps: GetServerSideProps = async () => {
+  const client = initializeApollo();
+  await client.query({
     query: LaunchesDocument,
   });
-  const { launchesPast: launches } = data;
+
   return {
     props: {
-      error,
-      launches,
+      initialApolloState: client.cache.extract(),
     },
   };
 };
 
-type Props = {
-  launches: LaunchesQuery["launchesPast"];
-};
+const Home: NextPage = () => {
+  const { data } = useQuery(LaunchesDocument);
 
-const Home: NextPage<Props> = ({ launches }) => {
-  console.log(launches);
+  if (!data) return null;
+  console.log(data.launches);
   return (
     <div className="p-4">
       <div className="md:grid gap-4 grid-cols-3 mt-3">
@@ -75,10 +72,12 @@ const Home: NextPage<Props> = ({ launches }) => {
 
       <div className="mt-3">
         <Card>
-          <Card.Body>
-            <button>Animate toggle</button>
-            <Text>Card Table</Text>
-          </Card.Body>
+          <Card.Header>
+            <Heading>SpaceX Launch Data</Heading>
+          </Card.Header>
+
+          {/* <button>Animate toggle</button> */}
+          <MissionTable data={data.launches} />
         </Card>
       </div>
     </div>

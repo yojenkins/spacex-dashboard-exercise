@@ -1,5 +1,29 @@
 query Launches {
-  launchesPast(limit: 10) {
+  launches(limit: 20) {
     mission_name
+    mission_id
+    launch_date_local
+    launch_success
+    launch_site {
+      site_name
+    }
+    rocket {
+      rocket_name
+      second_stage {
+        payloads {
+          payload_mass_kg
+        }
+      }
+    }
+  }
+  missions {
+    payloads {
+      payload_mass_kg
+    }
+    id
+    name
+  }
+  payloads {
+    nationality
   }
 }
