@@ -1,4 +1,3 @@
-import { disconnect } from "process";
 import React, { FC } from "react";
 
 interface CardCompound {
@@ -20,7 +19,7 @@ const Card: FC<CardProps> & CardCompound = ({ children, className = "" }) => {
   );
 };
 
-const Header: FC = ({ children }) => {
+const CardHeader: FC = ({ children }) => {
   return (
     <header className="border-b-4 border-gray-50 dark:border-gray-800 p-5">
       {children}
@@ -28,11 +27,11 @@ const Header: FC = ({ children }) => {
   );
 };
 
-const Body: FC = ({ children }) => {
+const CardBody: FC = ({ children }) => {
   return <div className="p-5">{children}</div>;
 };
 
-Card.Header = Header;
-Card.Body = Body;
+Card.Header = CardHeader;
+Card.Body = CardBody;
 
 export default Card;

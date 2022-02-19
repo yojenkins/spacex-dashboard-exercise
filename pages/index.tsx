@@ -2,15 +2,16 @@ import type { NextPage, GetServerSideProps } from "next";
 // import Head from 'next/head'
 // import Image from 'next/image'
 // import styles from '../styles/Home.module.css'
-import React from "react";
-import { gql, useQuery } from "@apollo/client";
+import React, { useEffect, useRef } from "react";
+import { useQuery } from "@apollo/client";
+import { useIntersection } from "react-use";
 
 import { initializeApollo } from "../graphql/client";
 import Card from "../components/common/Card";
 import SummaryCard from "../components/pages/dashboard/SummaryCard";
 import MissionTable from "../components/pages/dashboard/MissionTable";
 import { Text, Heading } from "../components/common/typography";
-import { LaunchesDocument, LaunchesQuery } from "../graphql/generated";
+import { LaunchesDocument } from "../graphql/generated";
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const client = initializeApollo();
@@ -26,10 +27,25 @@ export const getServerSideProps: GetServerSideProps = async () => {
 };
 
 const Home: NextPage = () => {
-  const { data } = useQuery(LaunchesDocument);
+  const { data, fetchMore, loading } = useQuery(LaunchesDocument, {
+    notifyOnNetworkStatusChange: true,
+  });
+
+  const paginationRef = useRef(null);
+  const intersection = useIntersection(paginationRef, {
+    root: null,
+    rootMargin: "0px",
+    threshold: 1,
+  });
+
+  useEffect(() => {
+    if (intersection && intersection.intersectionRatio === 1) {
+      console.log("firing useEffect");
+    }
+  }, [intersection]);
 
   if (!data) return null;
-  console.log(data.launches);
+
   return (
     <div className="p-4">
       <div className="md:grid gap-4 grid-cols-3 mt-3">
@@ -78,6 +94,7 @@ const Home: NextPage = () => {
 
           {/* <button>Animate toggle</button> */}
           <MissionTable data={data.launches} />
+          <div ref={paginationRef} style={{ height: "2rem" }} />
         </Card>
       </div>
     </div>
