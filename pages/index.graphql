@@ -27,6 +27,9 @@ query DashboardGraphs {
     name
   }
   payloads {
+    id
     nationality
+    payload_mass_kg
+    customers
   }
 }
