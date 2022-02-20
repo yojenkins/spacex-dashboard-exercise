@@ -1,6 +1,4 @@
-import { spawn } from "child_process";
-import { get } from "lodash";
-import React from "react";
+import React, { useMemo } from "react";
 import { useTable } from "react-table";
 
 import { Launch, LaunchesQuery } from "../../../graphql/generated";
@@ -8,6 +6,7 @@ import { Text } from "../../common/typography";
 
 type Props = {
   data: LaunchesQuery["launches"];
+  loading: boolean;
 };
 
 const sumPayloads = (row: Launch) => {
@@ -24,9 +23,11 @@ const sumPayloads = (row: Launch) => {
 const Success = () => <span className="text-green-500">Success</span>;
 const Failure = () => <span className="text-red-500">Failure</span>;
 
-const MissionTable = ({ data }: Props) => {
-  const mappedData: NonNullable<Props["data"]> = data?.filter((x) => !!x) ?? [];
-  if (!mappedData) return null;
+const MissionTable = ({ data, loading }: Props) => {
+  const mappedData: NonNullable<Props["data"]> = useMemo(
+    () => data?.filter((x) => !!x) ?? [],
+    [data]
+  );
 
   const columns = React.useMemo(
     () => [
@@ -64,7 +65,7 @@ const MissionTable = ({ data }: Props) => {
 
   const tableInstance = useTable<Launch>({
     columns,
-    data: data as NonNullable<Props["data"]>,
+    data: mappedData,
   });
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
@@ -102,6 +103,7 @@ const MissionTable = ({ data }: Props) => {
             })}
           </tbody>
         </table>
+        {loading && <div className="text-center p-4">Loading...</div>}
       </div>
     </div>
   );

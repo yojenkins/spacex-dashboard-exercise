@@ -17,6 +17,10 @@ export const getServerSideProps: GetServerSideProps = async () => {
   const client = initializeApollo();
   await client.query({
     query: LaunchesDocument,
+    variables: {
+      limit: 10,
+      offset: 0,
+    },
   });
 
   return {
@@ -31,6 +35,8 @@ const Home: NextPage = () => {
     notifyOnNetworkStatusChange: true,
   });
 
+  console.log((data?.launches ?? []).map((m) => m?.mission_name));
+
   const paginationRef = useRef(null);
   const intersection = useIntersection(paginationRef, {
     root: null,
@@ -40,6 +46,12 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     if (intersection && intersection.intersectionRatio === 1) {
+      fetchMore({
+        variables: {
+          limit: 10,
+          offset: (data?.launches?.length ?? 0) + 10,
+        },
+      });
       console.log("firing useEffect");
     }
   }, [intersection]);
@@ -93,7 +105,7 @@ const Home: NextPage = () => {
           </Card.Header>
 
           {/* <button>Animate toggle</button> */}
-          <MissionTable data={data.launches} />
+          <MissionTable data={data.launches} loading={loading} />
           <div ref={paginationRef} style={{ height: "2rem" }} />
         </Card>
       </div>

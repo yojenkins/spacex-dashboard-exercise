@@ -13,7 +13,22 @@ function createApolloClient() {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
     link: httpLink,
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache({
+      typePolicies: {
+        Query: {
+          fields: {
+            launches: {
+              keyArgs: ['find'],
+              merge: (existing, incoming) => {
+                if (!existing) return incoming
+
+                return [...existing, ...incoming]
+              }
+            }
+          }
+        }
+      }
+    }),
   });
 }
 

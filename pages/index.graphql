@@ -1,5 +1,5 @@
-query Launches {
-  launches(limit: 20) {
+query Launches($limit: Int!, $offset: Int!) {
+  launches(limit: $limit, offset: $offset) {
     mission_name
     mission_id
     launch_date_local
@@ -16,6 +16,9 @@ query Launches {
       }
     }
   }
+}
+
+query DashboardGraphs {
   missions {
     payloads {
       payload_mass_kg
