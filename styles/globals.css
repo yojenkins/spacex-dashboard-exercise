@@ -1,6 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  .font-body {
+    font-family: "Montserrat", Roboto, Helvetica, Arial, sans-serif;
+  }
+  .font-display {
+    font-family: "Poppins", Roboto, Helvetica, Arial, sans-serif;
+  }
+}
 @layer components {
   #__next {
     @apply h-full;
