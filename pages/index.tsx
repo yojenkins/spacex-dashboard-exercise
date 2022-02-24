@@ -2,7 +2,7 @@ import type { NextPage, GetServerSideProps } from "next";
 // import Head from 'next/head'
 // import Image from 'next/image'
 // import styles from '../styles/Home.module.css'
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useEffect, useCallback, useRef } from "react";
 import { useQuery } from "@apollo/client";
 import { useIntersection } from "react-use";
 
@@ -10,12 +10,12 @@ import { initializeApollo } from "../graphql/client";
 import Card from "../components/common/Card";
 import SummaryCard from "../components/pages/dashboard/SummaryCard";
 import MissionTable from "../components/pages/dashboard/MissionTable";
-import { Text, Heading } from "../components/common/typography";
+import { H1, H2 } from "../components/common/typography";
 import {
   DashboardGraphsDocument,
   LaunchesDocument,
 } from "../graphql/generated";
-import { useDerivedPayloadsData, useDerivedMissionsData } from "./index.hooks";
+import { useDerivedPayloadsData } from "./index.hooks";
 import PayloadsByNationality from "../components/pages/dashboard/PayloadsByNationality";
 import MissionsByPayloadMass from "../components/pages/dashboard/MissionsByPayloadMass";
 
@@ -44,8 +44,9 @@ const Home: NextPage = () => {
   const { data, fetchMore, loading } = useQuery(LaunchesDocument, {
     notifyOnNetworkStatusChange: true,
   });
-
-  console.log((data?.launches ?? []).map((m) => m?.mission_name));
+  const toggleMode = useCallback(() => {
+    document.documentElement.classList.toggle("dark");
+  }, []);
 
   const paginationRef = useRef(null);
   const intersection = useIntersection(paginationRef, {
@@ -63,7 +64,6 @@ const Home: NextPage = () => {
           offset: (data?.launches?.length ?? 0) + 10,
         },
       });
-      console.log("firing useEffect");
     }
   }, [intersection]);
 
@@ -76,15 +76,15 @@ const Home: NextPage = () => {
 
   if (!data) return null;
 
-  console.log({
-    averagePayloadSize,
-    uniquePayloadCustomers,
-    countByNationality,
-  });
-
   return (
     <div className="p-4 max-w-screen-xl mx-auto">
-      <div className="md:grid gap-4 grid-cols-3 mt-3">
+      <header className="flex py-11">
+        <H1>SpaceX Mission Dashboard</H1>
+        <div className="ml-auto">
+          <button onClick={toggleMode}>Dark Mode</button>
+        </div>
+      </header>
+      <div className="md:grid gap-4 grid-cols-3 mt-4">
         <SummaryCard
           icon={<span>i</span>}
           title="Total Payloads"
@@ -102,15 +102,15 @@ const Home: NextPage = () => {
         />
       </div>
 
-      <div className="md:grid gap-4 grid-cols-2 mt-3">
+      <div className="md:grid gap-4 grid-cols-2 mt-4">
         <PayloadsByNationality data={countByNationality} />
         <MissionsByPayloadMass />
       </div>
 
-      <div className="mt-3">
+      <div className="mt-4">
         <Card>
           <Card.Header>
-            <Heading>SpaceX Launch Data</Heading>
+            <H2>SpaceX Launch Data</H2>
           </Card.Header>
 
           {/* <button>Animate toggle</button> */}

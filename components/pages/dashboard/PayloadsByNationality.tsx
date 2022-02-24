@@ -9,7 +9,7 @@ import {
 } from "recharts";
 
 import Card from "../../common/Card";
-import { Heading, Text } from "../../common/typography";
+import { H2, Text } from "../../common/typography";
 import { DashboardGraphsQuery } from "../../../graphql/generated";
 
 interface NationalityCount {
@@ -26,7 +26,7 @@ function PayloadsByNationality({ data }: Props) {
   return (
     <Card>
       <Card.Header>
-        <Heading>Payload Count by Nationality</Heading>
+        <H2>Payload Count by Nationality</H2>
       </Card.Header>
       <Card.Body>
         <div className="flex items-center">

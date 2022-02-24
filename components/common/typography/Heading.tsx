@@ -1,11 +1,13 @@
 import React, { FC } from "react";
 
-const Heading: FC = ({ children }) => {
-  return (
-    <h1 className="text-xl text-black dark:text-white font-display font-bold">
-      {children}
-    </h1>
-  );
+const baseClasses = "text-black dark:text-white font-display font-bold";
+
+const H1: FC = ({ children }) => {
+  return <h1 className={`${baseClasses} text-2xl`}>{children}</h1>;
 };
 
-export default Heading;
+const H2: FC = ({ children }) => {
+  return <h2 className={`${baseClasses} text-xl`}>{children}</h2>;
+};
+
+export { H1, H2 };
