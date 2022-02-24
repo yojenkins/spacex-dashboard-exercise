@@ -21,7 +21,7 @@ const Card: FC<CardProps> & CardCompound = ({ children, className = "" }) => {
 
 const CardHeader: FC = ({ children }) => {
   return (
-    <header className="border-b-4 border-gray-50 dark:border-gray-800 p-5">
+    <header className="border-b-4 border-gray-50 dark:border-gray-800 py-4 px-6">
       {children}
     </header>
   );
