@@ -1,3 +1,4 @@
+import { last } from "lodash";
 import React, { useMemo } from "react";
 import { useTable } from "react-table";
 
@@ -77,11 +78,20 @@ const MissionTable = ({ data, loading }: Props) => {
           <thead>
             {headerGroups.map((group) => (
               <tr {...group.getHeaderGroupProps()} className="text-left">
-                {group.headers.map((column) => (
-                  <th {...column.getHeaderProps()} className="pt-3 pb-2 px-6">
-                    <Text>{column.render("Header")}</Text>
-                  </th>
-                ))}
+                {group.headers.map((column, i) => {
+                  const firstCell = i === 0;
+                  const lastCell = i === group.headers.length - 1;
+                  return (
+                    <th
+                      {...column.getHeaderProps()}
+                      className={`pt-3 pb-2 px-3 
+                      ${firstCell && "pl-6"} 
+                      ${lastCell && "pr-6"}`}
+                    >
+                      <Text>{column.render("Header")}</Text>
+                    </th>
+                  );
+                })}
               </tr>
             ))}
           </thead>
@@ -90,14 +100,20 @@ const MissionTable = ({ data, loading }: Props) => {
               prepareRow(row);
               return (
                 <tr {...row.getRowProps()}>
-                  {row.cells.map((cell) => (
-                    <td
-                      {...cell.getCellProps()}
-                      className="py-3 px-6 border-t-2 border-gray-50 dark:border-gray-800"
-                    >
-                      <Text>{cell.render("Cell")}</Text>
-                    </td>
-                  ))}
+                  {row.cells.map((cell, i) => {
+                    const firstCell = i === 0;
+                    const lastCell = i === row.cells.length - 1;
+                    return (
+                      <td
+                        {...cell.getCellProps()}
+                        className={`py-3 px-3 border-t-2 border-gray-50 dark:border-gray-800 ${
+                          firstCell && "pl-6"
+                        } ${lastCell && "pr-6"}`}
+                      >
+                        <Text>{cell.render("Cell")}</Text>
+                      </td>
+                    );
+                  })}
                 </tr>
               );
             })}
