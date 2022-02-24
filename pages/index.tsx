@@ -83,7 +83,7 @@ const Home: NextPage = () => {
   });
 
   return (
-    <div className="p-4">
+    <div className="p-4 max-w-screen-xl mx-auto">
       <div className="md:grid gap-4 grid-cols-3 mt-3">
         <SummaryCard
           icon={<span>i</span>}
