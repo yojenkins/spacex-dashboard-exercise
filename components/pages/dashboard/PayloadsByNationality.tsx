@@ -1,16 +1,8 @@
-import React from "react";
-import {
-  PieChart,
-  Pie,
-  Cell,
-  Legend,
-  ResponsiveContainer,
-  LegendProps,
-} from "recharts";
+import React, { FC } from "react";
+import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 
 import Card from "../../common/Card";
 import { H2, Text } from "../../common/typography";
-import { DashboardGraphsQuery } from "../../../graphql/generated";
 
 interface NationalityCount {
   name: string;
@@ -20,7 +12,11 @@ type Props = {
   data: NationalityCount[];
 };
 
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#F0F043"];
+const COLORS = ["#f97316", "#b91c1c", "#14b8a6", "#3b82f6", "#6d28d9"];
+
+const TableHeading: FC = ({ children }) => (
+  <Text className="uppercase font-display">{children}</Text>
+);
 
 function PayloadsByNationality({ data }: Props) {
   return (
@@ -56,15 +52,19 @@ function PayloadsByNationality({ data }: Props) {
             <ul>
               <li className="py-2 flex">
                 <div className="w-64">
-                  <Text className="uppercase">Nationality</Text>
+                  <TableHeading>Nationality</TableHeading>
                 </div>
                 <div className="flex-1">
-                  <Text className="uppercase">Value</Text>
+                  <TableHeading>Value</TableHeading>
                 </div>
               </li>
               {data.slice(0, 5).map(({ name, count }, index) => (
                 <li
-                  className={`${index !== 0 ? "border-t-2" : ""} py-2 flex`}
+                  className={`${
+                    index !== 0
+                      ? "border-t-2 border-gray-50 dark:border-gray-800"
+                      : ""
+                  } py-2 flex`}
                   key={name}
                 >
                   <div className="w-64">

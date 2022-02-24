@@ -13,7 +13,7 @@ const SummaryCard: FC<Props> = ({ icon, title, metric }) => {
       <div className="flex items-top">
         <div className="mr-2">{icon}</div>
         <div>
-          <Text className="block text-xl leading-none -mb-0.5 font-bold text-gray-800">
+          <Text className="block text-xl leading-none -mb-0.5 font-bold text-gray-900">
             {metric}
           </Text>
           <span className="text-sm font-medium text-gray-400 dark:text-gray-400">{title}</span>

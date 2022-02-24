@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 
-const baseClasses = "text-black dark:text-white font-display font-bold";
+const baseClasses = "text-gray-900 dark:text-white font-display font-bold";
 
 const H1: FC = ({ children }) => {
   return <h1 className={`${baseClasses} text-2xl`}>{children}</h1>;
