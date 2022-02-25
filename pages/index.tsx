@@ -1,5 +1,5 @@
 import type { NextPage, GetServerSideProps } from "next";
-import React, { useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useQuery } from "@apollo/client";
 import { useIntersection } from "react-use";
 
@@ -7,7 +7,8 @@ import { initializeApollo } from "../graphql/client";
 import Card from "../components/common/Card";
 import SummaryCard from "../components/pages/dashboard/SummaryCard";
 import MissionTable from "../components/pages/dashboard/MissionTable";
-import { H1, H2 } from "../components/common/typography";
+import { H1, H2, Text } from "../components/common/typography";
+import SettingsToggle from "../components/pages/dashboard/SettingsToggle";
 import {
   DashboardGraphsDocument,
   LaunchesDocument,
@@ -41,9 +42,6 @@ const Home: NextPage = () => {
   const { data, fetchMore, loading } = useQuery(LaunchesDocument, {
     notifyOnNetworkStatusChange: true,
   });
-  const toggleMode = useCallback(() => {
-    document.documentElement.classList.toggle("dark");
-  }, []);
 
   const paginationRef = useRef(null);
   const intersection = useIntersection(paginationRef, {
@@ -78,10 +76,11 @@ const Home: NextPage = () => {
       <header className="flex py-11">
         <H1>SpaceX Mission Dashboard</H1>
         <div className="ml-auto">
-          <button onClick={toggleMode}>Dark Mode</button>
+          <SettingsToggle />
         </div>
       </header>
-      <div className="md:grid gap-4 grid-cols-3 mt-4">
+
+      <div className="grid gap-4 grid-cols-1 md:grid-cols-3 mt-4">
         <SummaryCard
           icon={<span>i</span>}
           title="Total Payloads"
@@ -99,8 +98,9 @@ const Home: NextPage = () => {
         />
       </div>
 
-      <div className="md:grid gap-4 grid-cols-2 mt-4">
+      <div className="grid gap-4 grid-cols-1 lg:grid-cols-2 mt-4">
         <PayloadsByNationality data={countByNationality} />
+
         <MissionsByPayloadMass />
       </div>
 
@@ -110,7 +110,6 @@ const Home: NextPage = () => {
             <H2>SpaceX Launch Data</H2>
           </Card.Header>
 
-          {/* <button>Animate toggle</button> */}
           <MissionTable data={data.launches} loading={loading} />
           <div ref={paginationRef} style={{ height: "2rem" }} />
         </Card>

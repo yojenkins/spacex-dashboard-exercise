@@ -1,5 +1,12 @@
 import React, { FC } from "react";
-import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  ResponsiveContainer,
+  Tooltip as RCTooltip,
+  TooltipProps,
+} from "recharts";
 
 import Card from "../../common/Card";
 import { H2, Text } from "../../common/typography";
@@ -14,10 +21,6 @@ type Props = {
 
 const COLORS = ["#f97316", "#b91c1c", "#14b8a6", "#3b82f6", "#6d28d9"];
 
-const TableHeading: FC = ({ children }) => (
-  <Text className="uppercase font-display">{children}</Text>
-);
-
 export default function PayloadsByNationality({ data }: Props) {
   return (
     <Card>
@@ -27,8 +30,9 @@ export default function PayloadsByNationality({ data }: Props) {
       <Card.Body>
         <div className="flex items-center">
           <div className="w-64">
-            <ResponsiveContainer width={"99%"} height={299}>
+            <ResponsiveContainer width="100%" height={275}>
               <PieChart>
+                <RCTooltip content={<Tooltip />} />
                 <Pie
                   outerRadius={80}
                   innerRadius={75}
@@ -57,15 +61,31 @@ export default function PayloadsByNationality({ data }: Props) {
   );
 }
 
+const Tooltip = ({ active, payload }: TooltipProps<number, string>) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-gray-900 dark:bg-gray-50 p-2 rounded-md">
+        <span className="text-xs text-gray-50 dark:text-gray-900">{`${payload[0].name} ${payload[0].value}`}</span>
+      </div>
+    );
+  }
+
+  return null;
+};
+
+const LegendHeading: FC = ({ children }) => (
+  <Text className="text-xs uppercase font-display">{children}</Text>
+);
+
 const Legend = ({ data }: Props) => {
   return (
     <ul>
       <li className="py-2 flex">
         <div className="w-64">
-          <TableHeading>Nationality</TableHeading>
+          <LegendHeading>Nationality</LegendHeading>
         </div>
         <div className="flex-1">
-          <TableHeading>Value</TableHeading>
+          <LegendHeading>Value</LegendHeading>
         </div>
       </li>
       {data.slice(0, 5).map((row, index) => (
@@ -99,10 +119,10 @@ const LegendItem = ({
           <circle cx="50" cy="50" r="50" />
         </svg>
 
-        <Text>{name}</Text>
+        <Text className="text-sm">{name}</Text>
       </div>
       <div className="flex-1">
-        <Text>{count}</Text>
+        <Text className="text-sm">{count}</Text>
       </div>
     </li>
   );
