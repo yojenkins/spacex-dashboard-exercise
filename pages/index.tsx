@@ -99,11 +99,12 @@ const Home: NextPage = () => {
         />
       </div>
 
-      <div className="grid gap-4 grid-cols-1 lg:grid-cols-2 mt-4">
+      {/* This "works but the Missions card is incomplete decided to comment it out" */}
+      {/* <div className="grid gap-4 grid-cols-1 lg:grid-cols-2 mt-4">
         <PayloadsByNationality data={countByNationality} />
 
         <MissionsByPayloadMass />
-      </div>
+      </div> */}
 
       <div className="mt-4">
         <Card>

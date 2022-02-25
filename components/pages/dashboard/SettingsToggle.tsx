@@ -33,7 +33,7 @@ export default function SettingsToggle() {
             cy="50"
             r="40"
             stroke="currentColor"
-            stroke-width="10"
+            strokeWidth="10"
             fill="none"
           />
         </svg>
