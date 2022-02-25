@@ -1,5 +1,5 @@
 import type { NextPage, GetServerSideProps } from "next";
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useQuery } from "@apollo/client";
 import { useIntersection } from "react-use";
 
@@ -7,7 +7,8 @@ import { initializeApollo } from "../graphql/client";
 import Card from "../components/common/Card";
 import SummaryCard from "../components/pages/dashboard/SummaryCard";
 import MissionTable from "../components/pages/dashboard/MissionTable";
-import { H1, H2, Text } from "../components/common/typography";
+import { H1, H2 } from "../components/common/typography";
+import IconMock from "../components/common/icons/IconMock";
 import SettingsToggle from "../components/pages/dashboard/SettingsToggle";
 import {
   DashboardGraphsDocument,
@@ -82,17 +83,17 @@ const Home: NextPage = () => {
 
       <div className="grid gap-4 grid-cols-1 md:grid-cols-3 mt-4">
         <SummaryCard
-          icon={<span>i</span>}
+          icon={<IconMock size="18" fill="#14b8a6" />}
           title="Total Payloads"
           metric={graphsData?.payloads?.length.toString() ?? "0"}
         />
         <SummaryCard
-          icon={<span>i</span>}
+          icon={<IconMock size="18" fill="#6d28d9" />}
           title="Avg. Payload Mass"
           metric={`${averagePayloadSize.toString()} Kg`}
         />
         <SummaryCard
-          icon={<span>i</span>}
+          icon={<IconMock size="18" fill="#f97316" />}
           title="Total Payload Customers"
           metric={uniquePayloadCustomers.toString()}
         />

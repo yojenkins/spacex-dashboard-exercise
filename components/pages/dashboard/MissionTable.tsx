@@ -106,7 +106,7 @@ const MissionTable = ({ data, loading }: Props) => {
                     return (
                       <td
                         {...cell.getCellProps()}
-                        className={`py-3 px-3 border-t-2 border-gray-50 dark:border-gray-800 ${
+                        className={`py-3 px-3 border-t-2 border-gray-50 dark:border-gray-775 ${
                           firstCell && "pl-6"
                         } ${lastCell && "pr-6"}`}
                       >

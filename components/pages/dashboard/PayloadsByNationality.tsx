@@ -103,7 +103,7 @@ const LegendItem = ({
   index: number;
 }) => {
   const { name, count } = row;
-  const firstItemCls = "border-t-2 border-gray-50 dark:border-gray-800";
+  const firstItemCls = "border-t-2 border-gray-50 dark:border-gray-775";
 
   return (
     <li className={`${index !== 0 && firstItemCls} py-2 flex`}>
